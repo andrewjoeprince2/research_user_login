@@ -3,12 +3,12 @@
 	$user = "root";
 	$pass = "";
 	$url = "localhost";
-	$db = "db_movies";
-	
+	$db = "db_research_user_login";
+
 	//$link = mysqli_connect($url, $user, $pass, $db); //Mac
 	$link = mysqli_connect($url, $user, $pass, $db); //PC
-	
-	/* check connection */ 	
+
+	/* check connection */
 	if(mysqli_connect_errno()) {
 		printf("Connect failed: %s\n", mysqli_connect_error());
 		exit();

@@ -1,4 +1,4 @@
-<?php 
+<?php
 	require_once('phpscripts/config.php');
 	$ip = $_SERVER['REMOTE_ADDR'];
 	//echo $ip;
@@ -16,25 +16,42 @@
 ?>
 
 <!doctype html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Welcome to your admin panel login</title>
-		<link rel="stylesheet" type="text/css" href="../css/main.css">
-	</head>
-	
-	<body>
-		<?php if(!empty($message)){ echo $message;} ?>
-		<div id="loginForm">
-			
-		<form action="admin_login.php" method="post">
-			<label>Username</label>
-			<input type="text" name="username" value="">
-			<label>Password</labe>
-			<input type="password" name="password" value="">
+<html class="no-js" lang="en">
+  <head>
+  <?php include('../includes/head.php'); ?>
+  <title>Client Login - Evil Corp</title>
+  </head>
 
-			<input id="submit" type="submit" name="submit" value="Show me da wey">
-		</form>
+  <body>
+
+		<div id="loginContainer">
+		<div class="row">
+
+			<div class="small-12 columns" id="loginInfo">
+				<h2>Evil Corp</h2>
+				<h3>Together we can change the world, with E Corp.</h3>
+			</div>
+
+			<div class="small-12 columns" id="loginForm">
+				<h3>Sign in with your organizational account</h3>
+
+				<?php if(!empty($message)){ echo "<p class=\"error fadeIn\"><i class=\"fa fa-exclamation-triangle fade\" aria-hidden=\"true\" id=\"warningIcon\"></i>{$message}</p>";} ?>
+
+				<form action="admin_login.php" method="post">
+					<label>Username</label>
+					<input type="text" name="username" value="">
+					<label>Password</labe>
+					<input type="password" name="password" value="">
+
+					<input id="submit" type="submit" name="submit" value="Let's Go!">
+				</form>
+				<div id="loginHelp">
+				<a href="#">Forgot Password</a>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
 	</body>
 </html>
