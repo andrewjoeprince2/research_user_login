@@ -12,6 +12,7 @@
 		if(mysqli_num_rows($user_set)){
 			$founduser = mysqli_fetch_array($user_set, MYSQLI_ASSOC);
 			$id = $founduser['user_id'];
+			$foundattempts = $founduser['user_attempts'];
 
 			$lastLogin = $founduser['user_current_login'];
 			$_SESSION['user_id'] = $id;
@@ -27,8 +28,22 @@
 			$currentDate = date('m/d/Y H:i:s');
 
 			if(mysqli_query($link, $loginstring)){
+
+				//check amount of attempts
+				if($foundattempts >= 3) {
+					//lock out account
+					$message = "There have been too many failed attempts to access this account. Please contact the service administrator.";
+					return $message;
+
+					//else, run normal log in function
+				} else {
+
 				$update = "UPDATE tbl_user SET user_ip='{$ip}' WHERE user_id = {$id}";
 				$updatequery = mysqli_query($link, $update);
+
+				//Reset attempts column to 0, since this attempt was successful
+				$updateAttempts = "UPDATE tbl_user SET user_attempts='0' WHERE user_id = {$id}";
+				$updateAttemptsQuery = mysqli_query($link, $updateAttempts);
 
 				//Store the LAST saved password. Simply by getting it from the user_current_login column and copying it to user_last_login column
 				//No tutorial needed for this one
@@ -42,9 +57,35 @@
 			}
 
 			redirect_to("admin_index.php");
+		}
 		} else {
-			$message = "The username and password you entered did not match our records. Please double-check and try again.";
-			return $message;
+
+			//Else, so if the credentials were incorrect,
+			//Run a query that updates the attempts column, but make sure the string ONLY matches the "user" column, since the password was entered incorrectly
+			//query to return the user where username = the one they entered on the form
+			$attemptstring = "SELECT * FROM tbl_user WHERE user_name = '{$username}'";
+			$attempt_set = mysqli_query($link, $attemptstring);
+
+			//Now run the query and set variables
+			$attemptUser = mysqli_fetch_array($attempt_set, MYSQLI_ASSOC);
+		  $attempts = $attemptUser['user_attempts'];
+			$attemptsAdd = ++$attempts;
+
+			//Update the attempts column with the added ++$attempts variable. It works!!!
+			$countAttempts = "UPDATE tbl_user SET user_attempts='$attemptsAdd' WHERE user_name = '{$username}'";
+			$countAttemptsQuery = mysqli_query($link, $countAttempts);
+
+			//if attempts equal or are greater than 3, return lock out message
+			if ($attempts >= 3){
+				$message = "There have been too many failed attempts to access this account. Please contact the service administrator.";
+				return $message;
+
+			} else {
+				//Else, just display normal error message
+				$message = "The username and password you entered did not match our records. Please double-check and try again.";
+				return $message;
+			}
+
 		}
 
 		mysqli_close($link);
