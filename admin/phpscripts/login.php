@@ -5,12 +5,23 @@
 
 		$username = mysqli_real_escape_string($link, $username);
 		$password = mysqli_real_escape_string($link, $password);
-		$loginstring = "SELECT * FROM tbl_user WHERE user_name = '{$username}' AND user_pass = '{$password}'";
+		$loginstring = "SELECT * FROM tbl_user WHERE user_name = '{$username}'";
 
 		$user_set = mysqli_query($link, $loginstring);
 		//echo mysqli_num_rows($user_set);
 		if(mysqli_num_rows($user_set)){
 			$founduser = mysqli_fetch_array($user_set, MYSQLI_ASSOC);
+
+			//get current hashed pass
+			$hashedPass = $founduser['user_pass'];
+
+			//unhash and verify
+			//it is comparing the computer generated passwod to the hashed password (decrypting it)
+			//if successful, run the login script
+			//learned the password_verify decrypt method from http://php.net/manual/en/function.password-verify.php
+			if(password_verify($password, $hashedPass)) {
+
+
 			$id = $founduser['user_id'];
 			$foundattempts = $founduser['user_attempts'];
 
@@ -58,7 +69,11 @@
 
 			redirect_to("admin_index.php");
 		}
-		} else {
+}
+
+
+
+		else {
 
 			//Else, so if the credentials were incorrect,
 			//Run a query that updates the attempts column, but make sure the string ONLY matches the "user" column, since the password was entered incorrectly
@@ -86,7 +101,7 @@
 				return $message;
 			}
 
-		}
+		}}
 
 		mysqli_close($link);
 	}

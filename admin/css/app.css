@@ -216,6 +216,38 @@ body#adminIndex {
 #currLog {
   color: #004d00; }
 
+/*User form*/
+#userForm {
+  margin-top: 20px; }
+  #userForm h2 {
+    color: #22272a;
+    font-size: 2em; }
+  #userForm label {
+    margin: 0;
+    padding: 0;
+    cursor: default; }
+  #userForm input {
+    border-radius: 5px; }
+  #userForm select {
+    border-radius: 5px; }
+
+.submitBut {
+  padding: 15px;
+  border: none;
+  width: 200px;
+  background-color: #22272a;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1em;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out; }
+
+.submitBut:hover {
+  background-color: #b7b7b9; }
+
 /* Medium and up */
 @media screen and (min-width: 40em) {
   #loginContainer {

@@ -256,6 +256,44 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5c5c5c', end
   color: darken(green, 10%);
 }
 
+/*User form*/
+#userForm {
+  margin-top: 20px;
+
+  h2 {
+    color: $colorGray;
+    font-size: 2em;
+  }
+  label {
+    margin: 0;
+    padding: 0;
+    cursor: default;
+  }
+
+  input {
+    border-radius: 5px;
+  }
+
+  select {
+    border-radius: 5px;
+  }
+}
+
+.submitBut {
+  padding: 15px;
+  border: none;
+  width: 200px;
+  background-color: $colorGray;
+  color: $colorWhite;
+  cursor: pointer;
+  font-size: 1em;
+  @include trans(all, .2s);
+}
+
+.submitBut:hover {
+  background-color: $colorGray2;
+}
+
 /* Medium and up */
 @media screen and (min-width: 40em) {
 
